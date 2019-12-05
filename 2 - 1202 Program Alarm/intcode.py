@@ -25,9 +25,14 @@ class Program():
     def __init__(self, data: list or tuple or str, pointer = 0):
         """Initializes a new intcode program from an iterable that holds integers."""
 
-        self.input = list(data)
+        self.input_original = list(data)
+        self.input = self.input_original[:]
         self.output = None
         self.valid = None
+
+
+    def reset(self):
+        self.input = self.input_original[:]
 
 
     def run(self, pointer: int = 0) -> list:
@@ -88,13 +93,42 @@ if __name__ == "__main__":
     with open(file_path := "input/part-1.txt") as fh:
         content = fh.read()
         puzzle_input = [int(c.strip()) for c in content.split(",")]
-    puzzle_input[1] = 12
-    puzzle_input[2] = 2
+    modified = puzzle_input[:]
+    modified[1] = 12
+    modified[2] = 2
 
     # load program and run it
-    program = Program(puzzle_input)
+    program = Program(modified)
     program.run()
 
     # analyze output
     solution = program.output[0]
+    print("--- Part 1 ---")
     print(f"After running the program, this value is left at position 0:\n{solution}")
+
+    # part 2
+    target_value = 19690720  # found in address 0 after the program has run
+    addr_target = 0
+    addr_noun = 1
+    addr_verb = 2
+    lower, upper = 0, 99  # range for inputs, inclusive
+    machine = Program(puzzle_input)
+    # brute force inputs until we find the desired target value
+    found = False
+    for n in range(lower, upper+1):
+        for v in range(lower, upper+1):
+            machine.reset()
+            machine.input[addr_noun] = n
+            machine.input[addr_verb] = v
+            machine.run()
+            if machine.output[addr_target] == target_value:
+                found = True
+                answer = 100 * n + v
+            if found: break
+        if found: break
+    # concatenate noun and verb into single number
+    print("\n--- Part 2 ---")
+    if found:
+        print(f"This combination of noun, verb produced the undesirable outcome of {target_value} at address {addr_target}:\n{answer}")
+    else:
+        print(f"Could not find any combination of noun and verb to produce {target_value} at address {addr_target}.")

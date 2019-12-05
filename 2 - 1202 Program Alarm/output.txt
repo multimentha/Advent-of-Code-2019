@@ -1,0 +1,7 @@
+--- Part 1 ---
+After running the program, this value is left at position 0:
+4690667
+
+--- Part 2 ---
+This combination of noun, verb produced the undesirable outcome of 19690720 at address 0:
+6255
