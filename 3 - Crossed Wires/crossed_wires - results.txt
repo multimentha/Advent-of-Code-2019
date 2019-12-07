@@ -1,0 +1,5 @@
+Wire crossings closest to the central port, as measured by Manhattan (rectilinear) distance:
+x = -100, y = 527, Manhattan distance = 627
+
+Wire crossings closest to the central port, as measured by combined signal delay distance:
+x = 232, y = 527, combined signal delay = 13190
