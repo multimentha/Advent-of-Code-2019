@@ -1,2 +1,4 @@
 # test result files
 **/test_output.txt
+# log files
+**/logs/*
