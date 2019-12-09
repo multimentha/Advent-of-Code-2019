@@ -1,0 +1,7 @@
+======== evaluating program ========
+INTERACTIVE mode disabled, will pause only where user input is required.
+Please input parameter to store at adress 225...
+======== Summary of output ========
+instructions processed = 62
+output = [0, 0, 0, 0, 0, 0, 0, 0, 0, 15259545]
+diagnostic_code = 15259545
