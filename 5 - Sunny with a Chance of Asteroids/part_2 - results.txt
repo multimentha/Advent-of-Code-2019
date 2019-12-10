@@ -1,0 +1,35 @@
+==== equality test using position mode ====
+inputs = (7,), expected = [0], actual = [0], OK
+inputs = (8,), expected = [1], actual = [1], OK
+inputs = (9,), expected = [0], actual = [0], OK
+==== equality test using immediate mode ====
+inputs = (7,), expected = [0], actual = [0], OK
+inputs = (8,), expected = [1], actual = [1], OK
+inputs = (9,), expected = [0], actual = [0], OK
+==== less than test using position mode ====
+inputs = (7,), expected = [1], actual = [1], OK
+inputs = (8,), expected = [0], actual = [0], OK
+inputs = (9,), expected = [0], actual = [0], OK
+==== less than test using immediate mode ====
+inputs = (7,), expected = [1], actual = [1], OK
+inputs = (8,), expected = [0], actual = [0], OK
+inputs = (9,), expected = [0], actual = [0], OK
+==== jump if true/false ====
+using position mode
+inputs = (0,), expected = [0], actual = [0], OK
+inputs = (1,), expected = [1], actual = [1], OK
+inputs = (-1,), expected = [1], actual = [1], OK
+inputs = (800,), expected = [1], actual = [1], OK
+using immediate mode
+inputs = (0,), expected = [0], actual = [0], OK
+inputs = (1,), expected = [1], actual = [1], OK
+inputs = (-1,), expected = [1], actual = [1], OK
+inputs = (800,), expected = [1], actual = [1], OK
+
+==== test summary: ====
+run: 20
+suceeded: 20
+failed: 0
+
+==== thermal_radiator_controller_diagnosis ====
+trc_diag = [7616021]
