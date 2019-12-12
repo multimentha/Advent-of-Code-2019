@@ -1,1 +1,13 @@
+==== part 1 ====
 sum_product = 2080
+
+==== part 2 ====
+Try to visually discern a message (multiple letters) from this crude drawing:
+ - letters are in white tiles
+ - the background is black
+⬛⬜⬜⬛⬛⬜⬛⬛⬜⬛⬜⬜⬜⬛⬛⬛⬜⬜⬛⬛⬜⬛⬛⬛⬜
+⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬜
+⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬛⬜⬛⬜⬛
+⬜⬜⬜⬜⬛⬜⬛⬛⬜⬛⬜⬜⬜⬛⬛⬜⬛⬛⬛⬛⬛⬛⬜⬛⬛
+⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬜⬛⬛⬜⬛⬛⬜⬛⬛⬛⬜⬛⬛
+⬜⬛⬛⬜⬛⬛⬜⬜⬛⬛⬜⬛⬛⬜⬛⬛⬜⬜⬛⬛⬛⬛⬜⬛⬛
