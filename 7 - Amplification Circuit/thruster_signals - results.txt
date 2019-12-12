@@ -1,0 +1,2 @@
+max_thrust = '5440230'
+best_permutation = '04123'

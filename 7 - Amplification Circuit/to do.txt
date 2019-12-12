@@ -1,0 +1,11 @@
+goal:
+find maximum thrust; maximum thrust is generated when each thruster has the correct phase setting; phase settings are from 0, 1, 2, 3, 4 and never repeated
+
+steps:
+ * generate permutations of phase settings
+ * set up chain input
+
+notes
+
+ * each phase setting is used exactly once
+ * each thruster needs 2 inputs during runtime: 1st the phase setting, 2nd the output of the previous thruster (the initial thruster should be fed 0 here)
