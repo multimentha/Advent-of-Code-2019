@@ -16,42 +16,57 @@ class AsteroidField():
     def visualize(self):
         return self.text_representation
 
-    def illustrate_spiral_path(self, start_x: int, start_y: int) -> str:
-        """Illustrate the path of the search spiral for a given starting position is taking.
+    def illustrate_traversal(self, center_x: int, center_y: int, max_hops: int = None) -> str:
+        """For an asteroid positioned at (center_x, center_y), illustrate the order in which other asteroids are checked to be in line of sight.
 
-        Returns a string with each line representing a row of the grid. The numbers grow from zero and indicate the path of traversal."""
+        If max_hops is not specified, the path will be as long as necessary to cover the  entire asteroid field.
+
+        Returns a string with each line representing a row of the grid. The path starts at zero and grows from there."""
         # represent path in 2d grid
-        grid = [[None for tile in range(self.width)] for line in range(self.height)]
-        center = (start_x, start_y)
-        spiral_path = self.spiral_path(*center)
-        spiral_path.insert(0, center)
+        spiral_path = self.spiral_path(center_x, center_y, max_hops)
+        spiral_path.insert(0, (center_x, center_y))
         hop = 0
         digits = len(str(self.tile_count))
+        grid = [["-".rjust(digits).center(digits+2) for tile in range(self.width)] for line in range(self.height)]
         for tile in spiral_path:
             x, y = tile[0], tile[1]
-            grid[y][x] = str(hop).rjust(digits).center(digits+2)
+            try:
+                grid[y][x] = str(hop).rjust(digits).center(digits+2)
+            except IndexError as ie: # the spiral path has gone outside of the visual grid
+                # just ignore it
+                pass
             hop += 1
         # convert list grid to text lines
         lines = ["".join(str(num) for num in row) for row in grid]
         grid_representation = "\n".join(lines)
         return grid_representation
 
-    def spiral_path(self, start_x: int, start_y) -> list:
-        """Yield (x,y) coordinates of a spiraled path around the start position (0 based).
-
-        The path begins to the upper left of the start position and spirals around it clockwise, covering every tile in the grid in this fashion."""
-
-        def tile_inside_grid(x: int, y: int):
+    def position_inside_grid(self, x: int, y: int):
             """Determine wether an x, y position is inside the asteroid field."""
-            return 0 <= x < self.width and 0 <= start_y < self.height
+            return 0 <= x < self.width and 0 <= y < self.height
 
-        # ensure start position is inside the grid
-        assert 0 <= start_x < self.width, "The given start_x is outside of the grid!"
-        assert 0 <= start_y < self.height, "The given start_y is outside of the grid!"
+    def spiral_path(self, center_x: int, center_y, max_hops:int = None) -> list:
+        """Yield (x,y) coordinates of a spiraled path around the start position (0 based) for a given number of hops.
+
+        If max_hops is not specified, the path will be as long as necessary to cover the  entire asteroid field.
+
+        The path begins with the center (0) and and then spirals around it clockwise, starting from the tile top left of the center (1) as shown here:
+         9   10   11   12   13
+        24    1    2    3   14
+        23    8    0    4   15
+        22    7    6    5   16
+        21   20   19   18   17
+        """
+
+        # check input to function
+        if max_hops is not None:
+            assert type(max_hops) is int
+            assert max_hops >= 1
 
         # assemble path tile by tile
-        path = []
-        tiles_to_go = self.width * self.height
+        grid_tiles_traversed = 0 # tiles specifically INSIDE of the asteroid field
+        hops = 1 # start at 1 not 0 because the initial tile is already in the path
+        path = [(center_x, center_y)]
         edge_length = 2; next_turn_in = edge_length
         directions = (
             (+1, 0), # right
@@ -61,13 +76,15 @@ class AsteroidField():
         )
         rings = 0 # debug stat: how often the path has spiraled around the center
         direction = 0 # index for the above tuple
-        tile = (start_x - 1, start_y - 1)
-        while tiles_to_go:
-            if tile_inside_grid(*tile):
+        tile = (center_x - 1, center_y - 1)
+        finished = False
+        while not finished:
+            if self.position_inside_grid(*tile):
+                grid_tiles_traversed += 1
                 path.append(tile)
-                tiles_to_go -= 1
             # go to next tile
             tile = [sum(coords) for coords in zip(tile, directions[direction])] # element wise addtion of 2 tuples updates x, y position
+            hops += 1
             next_turn_in -= 1
             if next_turn_in == 0:
                 direction += 1
@@ -78,4 +95,8 @@ class AsteroidField():
                     # offset position by 1 tile diagonally towards top left
                     tile[0] -= 1; tile[1] -= 1
                 next_turn_in = edge_length
+            # is the path long enough yet?
+            grid_searched = max_hops is None and grid_tiles_traversed == self.tile_count - 1
+            enough_hops = hops == max_hops
+            if grid_searched or enough_hops : finished = True
         return path

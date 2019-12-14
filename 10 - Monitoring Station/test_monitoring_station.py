@@ -6,27 +6,16 @@ from monitoring_station import *
 afs = [AsteroidField(t["text representation"]) for t in tests]
 
 for af in afs:
+    # log input data
     print("==== visualisation ====")
-    print(af.visualize(), "\n")
+    print(af.visualize(), end="\n"*2)
     print("==== location map ====")
-    pp.pprint(af.location_map)
+    for row in af.location_map:
+        print(row)
     print()
 
     # visualization of spiral path
-    print("==== spiral path ====")
-    grid = [[None for tile in range(af.width)] for line in range(af.height)]
-    center = (2, 2)
-    spiral_path = af.spiral_path(*center)
-    spiral_path.insert(0, center)
-    hop = 0
-    for tile in spiral_path:
-        x, y = tile[0], tile[1]
-        grid[y][x] = str(hop)
-        hop += 1
-    pp.pprint(grid)
-    print()
-
     print("==== path illustration ====")
-    path_illustration = af.illustrate_spiral_path(2, 2)
-    print(path_illustration)
-
+    center = (3, 3)
+    path_illustration = af.illustrate_traversal(*center, max_hops=20)
+    print(path_illustration, end="\n"*2)
